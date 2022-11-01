@@ -208,8 +208,19 @@ export function selectCustomPath(collection, entryDraft) {
     return;
   }
   const meta = entryDraft.getIn(['entry', 'meta']);
-  const path = meta && meta.get('path');
-  const indexFile = get(collection.toJS(), ['meta', 'path', 'index_file']);
+  let path = meta && meta.get('path');
+  let indexFile = get(collection.toJS(), ['meta', 'path', 'index_file']);
+  const newEntry = entryDraft.getIn(['entry', 'newRecord']) || false;
+  if (newEntry) {
+    const data = entryDraft.getIn(['entry', 'data']);
+    let subdirectory = data && data.get('title') || "";
+    subdirectory = sanitizeSlug(subdirectory, {
+      encoding: "ascii",
+      clean_accents: true,
+      sanitize_replacement: "-",
+    });
+    path = path ? join(path, subdirectory) : subdirectory;
+  }
   const extension = selectFolderEntryExtension(collection);
   const customPath = path && join(collection.get('folder'), path, `${indexFile}.${extension}`);
   return customPath;
