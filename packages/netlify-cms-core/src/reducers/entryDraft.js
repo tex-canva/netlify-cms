@@ -33,6 +33,7 @@ import {
 } from '../actions/editorialWorkflow';
 import { selectFolderEntryExtension, selectHasMetaPath } from './collections';
 import { getDataPath, duplicateI18nFields } from '../lib/i18n';
+import { sanitizeSlug } from '../lib/urlHelper';
 
 const initialState = Map({
   entry: Map(),
