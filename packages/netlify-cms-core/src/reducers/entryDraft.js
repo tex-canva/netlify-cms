@@ -204,6 +204,12 @@ function entryDraftReducer(state = Map(), action) {
   }
 }
 
+const subDirSanitizationOptions = {
+  encoding: "ascii",
+  clean_accents: true,
+  sanitize_replacement: "-",
+};
+
 export function selectCustomPath(collection, entryDraft) {
   if (!selectHasMetaPath(collection)) {
     return;
@@ -215,11 +221,7 @@ export function selectCustomPath(collection, entryDraft) {
   if (newEntry) {
     const data = entryDraft.getIn(['entry', 'data']);
     let subdirectory = data && data.get('title') || "";
-    subdirectory = sanitizeSlug(subdirectory, {
-      encoding: "ascii",
-      clean_accents: true,
-      sanitize_replacement: "-",
-    });
+    subdirectory = sanitizeSlug(subdirectory, subDirSanitizationOptions).toLowerCase();
     path = path ? join(path, subdirectory) : subdirectory;
   }
   const extension = selectFolderEntryExtension(collection);
