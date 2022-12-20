@@ -73,6 +73,26 @@ const TextButton = styled.button`
   position: relative;
 `;
 
+const PermissionsDisclaimerContainer = styled.p`
+  text-align: center;
+  margin-top: 20px;
+  margin-block-end: 0;
+`;
+const permissionsIssueLink = "https://github.com/community/community/discussions/37117#discussioncomment-3973136"
+const ghPermissionsDisclaimer = (
+  <PermissionsDisclaimerContainer>
+    Note: github does not show fine-grained permissions requested 
+    (<a href={permissionsIssueLink}>link to issue</a>), only <strong>"Act on your behalf"</strong>. 
+    <br />
+    The actual permissions granted are confined only to the playbooks repo. 
+    <br /><br />
+    They are: <i>"Read/Write Repository Contents"</i>, <i>"Read/Write Pull Requests"</i>, and
+    <i>"Read Organization membership"</i>.
+    <br />
+    These are used to create commits & PRs as you, and to check that you are a member of Canva.
+  </PermissionsDisclaimerContainer>
+);
+
 function AuthenticationPage({
   onLogin,
   loginDisabled,
@@ -95,6 +115,7 @@ function AuthenticationPage({
           {renderButtonContent()}
         </LoginButton>
       )}
+      {ghPermissionsDisclaimer}
       {siteUrl && <GoBackButton href={siteUrl} t={t} />}
       {logoUrl ? <NetlifyCreditIcon size="100px" type="netlify-cms" /> : null}
     </StyledAuthenticationPage>
